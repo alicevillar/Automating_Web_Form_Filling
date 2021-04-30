@@ -6,7 +6,6 @@ from selenium.webdriver.support import expected_conditions as eco
 from selenium.webdriver.common.by import By
 from faker import Faker
 
-# automatizacao de preenchimento de formulario
 
 ################################################################
 # Part 1: Initializing
