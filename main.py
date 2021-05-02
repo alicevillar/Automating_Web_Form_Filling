@@ -140,8 +140,6 @@ driver.find_element_by_xpath('//*[@id="phone_mobile"]').send_keys("992828282")
 # Part 3.13. Box - Assign an address alias for future reference
 driver.find_element_by_xpath('//*[@id="alias"]').send_keys("170 Ludlow St")
 
-# Part 3.14. Box - Assign an address alias for future reference
-
 # Part 3.14. Box - Register: Using method send_keys to press ENTER
 search_input = driver.find_element_by_xpath('//*[@id="submitAccount"]')
 search_input.send_keys(Keys.ENTER)
