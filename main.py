@@ -4,8 +4,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions as eco
 from selenium.webdriver.common.by import By
-from faker import Faker
-
+from file_faker import user_data
 
 ################################################################
 #   Part 1. INITIALIZING
@@ -28,13 +27,19 @@ driver.get("http://automationpractice.com/index.php?controller=authentication&ba
 search_input = driver.find_element_by_xpath('//*[@id="email_create"]')
 
 # Part 1.4. Using the method send_keys, which is aimed to write in the search box
-search_input.send_keys("Jennifer@uol.com.br")
+search_input.send_keys(user_data['email'])
 
 # Part 1.5. Using method send_keys to press ENTER
 search_input.send_keys(Keys.ENTER)
 
+gender = ""
+if user_data['gender'] == "M":
+    gender = "id_gender1"
+else:
+    gender = "id_gender2"
+
 # Part 1.6. Give some time for web browser to open the page
-element_radio_gender = WebDriverWait(driver, 30).until(eco.presence_of_element_located((By.ID, "id_gender2")))
+element_radio_gender = WebDriverWait(driver, 30).until(eco.presence_of_element_located((By.ID, gender)))
 # Found element is in this variable, so I'll click
 element_radio_gender.click()
 
@@ -49,34 +54,33 @@ element_radio_gender.click()
 
 
 # Part 2.1. Box - first name
-driver.find_element_by_xpath('//*[@id="customer_firstname"]').send_keys("Jennifer")
+driver.find_element_by_xpath('//*[@id="customer_firstname"]').send_keys(user_data['first_name'])
 # Here I don't need to click enter, so there is no need to create a variable. Thus, the syntaxe can be in one  line.
 
 # Part 2.2. Box - last name
-driver.find_element_by_xpath('//*[@id="customer_lastname"]').send_keys("Jobs")
+driver.find_element_by_xpath('//*[@id="customer_lastname"]').send_keys(user_data['last_name'])
 
 # Part 2.3. Box - password
-driver.find_element_by_xpath('//*[@id="passwd"]').send_keys("Ganesha!")
+driver.find_element_by_xpath('//*[@id="passwd"]').send_keys(user_data['password'])
 
 # Part 2.4. Box - date of birth (drop down)
 
 # => Day
 select_day = Select(driver.find_element_by_id("days"))
 # Selecting by value
-select_day.select_by_value("4")
+select_day.select_by_value(user_data['day'])
 
 # => Month
 select_month = Select(driver.find_element_by_id("months"))
-select_month.select_by_value("1")
+select_month.select_by_value(user_data['month'])
 
 # => Year
 select_year = Select(driver.find_element_by_id("years"))
-select_year.select_by_value("1992")
+select_year.select_by_value(user_data['year'])
 
 # Part 2.5. Box - check box
 driver.find_element_by_id("newsletter").click()
 driver.find_element_by_id("optin").click()
-
 
 ################################################################
 #   Part 3. FORM FILLING ==>YOUR ADDRESS
@@ -94,9 +98,7 @@ driver.find_element_by_id("optin").click()
 #   3.12. Box - Mobile Phone
 #   3.13. Box - Assign an address alias for future reference
 #   3.14. Box - Register: Using method send_keys to press ENTER
-#
 ###############################################################
-
 
 # Part 3.1. First name
 driver.find_element_by_xpath('//*[@id="firstname"]')
@@ -105,28 +107,28 @@ driver.find_element_by_xpath('//*[@id="firstname"]')
 driver.find_element_by_xpath('//*[@id="lastname"]')
 
 # Part 3.3. Box - Company
-driver.find_element_by_xpath('//*[@id="company"]').send_keys("If Boutique Inc")
+driver.find_element_by_xpath('//*[@id="company"]').send_keys(user_data['company'])
 
 # Part 3.4. Box - Address
-driver.find_element_by_xpath('//*[@id="address1"]').send_keys("T94 Grand St.")
+driver.find_element_by_xpath('//*[@id="address1"]').send_keys((user_data['address1']))
 
 # Part 3.5. Box - Address 2
-driver.find_element_by_xpath('//*[@id="address2"]').send_keys("NY 10013")
+driver.find_element_by_xpath('//*[@id="address2"]').send_keys((user_data['address2']))
 
 # Part 3.6. Box - City
-driver.find_element_by_xpath('//*[@id="city"]').send_keys("New York")
+driver.find_element_by_xpath('//*[@id="city"]').send_keys(user_data['city'])
 
 # Part 3.7. Box - State
 
-select_year = Select(driver.find_element_by_id("id_state"))
-select_year.select_by_value("32")
+select_state = Select(driver.find_element_by_id("id_state"))
+select_state.select_by_visible_text(user_data['state'].capitalize())
 
 # Part 3.8. Box - Zip/Postal Code
-driver.find_element_by_xpath('//*[@id="postcode"]').send_keys("64646")
+driver.find_element_by_xpath('//*[@id="postcode"]').send_keys(user_data['postal_code'])
 
 # Part 3.9. Box - Country
-select_year = Select(driver.find_element_by_id("id_country"))
-select_year.select_by_value("21")
+select_country = Select(driver.find_element_by_id("id_country"))
+select_country.select_by_value("21")
 
 # Part 3.10. Box - Additional information
 driver.find_element_by_xpath('//*[@id="other"]').send_keys("No additional information")
@@ -142,4 +144,5 @@ driver.find_element_by_xpath('//*[@id="alias"]').send_keys("170 Ludlow St")
 
 # Part 3.14. Box - Register: Using method send_keys to press ENTER
 search_input = driver.find_element_by_xpath('//*[@id="submitAccount"]')
+
 search_input.send_keys(Keys.ENTER)
